@@ -1,31 +1,36 @@
 <template>
-  <div class="border">
-    <h3>子组件</h3>
-    <h3 @click="toParent">点击！！传给父组件的参数为：我就是传过来的参数</h3>
-    只需要父子组件中的函数名都是命名为passDataString(或其他)一样就行,
-    子组件中调用this.$emit('passDataString',数据)，
-    父组件调用子组件时v-on:passDataString = 函数名(e)，e即为子组件传来的‘数据’
-  </div>
+  <section class="panel">
+    <p class="panel-label">01 / CHILD</p>
+    <h3>子组件 · 事件来源</h3>
+    <label class="field-label" for="child-message">事件携带的消息</label
+    ><input
+      id="child-message"
+      v-model="message"
+      maxlength="160"
+      @keyup.enter="!$event.isComposing && toParent()"
+    />
+    <div class="actions">
+      <button class="primary" :disabled="!message.trim()" @click="toParent">
+        发出事件
+      </button>
+    </div>
+    <p class="feedback">事件名：passDataString</p>
+    <code class="code">emit('passDataString', message)</code>
+  </section>
 </template>
 
 <script>
 export default {
   name: "childPage_emit",
-  // eslint-disable-next-line no-unused-vars
-  setup(props,context){
-    const toParent = () => {
-      context.emit('passDataString','我就是传过来的参数');
-    }
-    return {
-      toParent
-    }
-  }
-}
+  emits: ["passDataString"],
+  data() {
+    return { message: "子组件已完成任务。" };
+  },
+  methods: {
+    toParent() {
+      if (this.message.trim())
+        this.$emit("passDataString", this.message.trim());
+    },
+  },
+};
 </script>
-
-<style scoped>
-.border{
-  padding: 4px;
-  border:4px #000 solid;
-}
-</style>
