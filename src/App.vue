@@ -20,7 +20,7 @@
         </p>
         <span class="status-label">本地交互 · 无需登录</span>
       </header>
-      <router-view />
+      <div id="lesson-content" tabindex="-1"><router-view /></div>
     </main>
   </div>
 </template>
